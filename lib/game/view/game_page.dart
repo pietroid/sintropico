@@ -3,7 +3,6 @@ import 'package:flame_audio/bgm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sintropico/game/game.dart';
-import 'package:sintropico/gen/assets.gen.dart';
 import 'package:sintropico/l10n/l10n.dart';
 import 'package:sintropico/loading/cubit/cubit.dart';
 
@@ -30,29 +29,25 @@ class GamePage extends StatelessWidget {
 }
 
 class GameView extends StatefulWidget {
-  const GameView({super.key, this.game});
-
-  final FlameGame? game;
+  const GameView({super.key});
 
   @override
   State<GameView> createState() => _GameViewState();
 }
 
 class _GameViewState extends State<GameView> {
-  FlameGame? _game;
-
   late final Bgm bgm;
 
   @override
   void initState() {
     super.initState();
     bgm = context.read<AudioCubit>().bgm;
-    bgm.play(Assets.audio.background);
+    // bgm.play(Assets.audio.background);
   }
 
   @override
   void dispose() {
-    bgm.pause();
+    // bgm.pause();
     super.dispose();
   }
 
@@ -62,30 +57,31 @@ class _GameViewState extends State<GameView> {
           color: Colors.white,
           fontSize: 4,
         );
-
-    _game ??= widget.game ??
-        Sintropico(
-          l10n: context.l10n,
-          effectPlayer: context.read<AudioCubit>().effectPlayer,
-          textStyle: textStyle,
-          images: context.read<PreloadCubit>().images,
-        );
     return Stack(
       children: [
-        Positioned.fill(child: GameWidget(game: _game!)),
-        Align(
-          alignment: Alignment.topRight,
-          child: BlocBuilder<AudioCubit, AudioState>(
-            builder: (context, state) {
-              return IconButton(
-                icon: Icon(
-                  state.volume == 0 ? Icons.volume_off : Icons.volume_up,
-                ),
-                onPressed: () => context.read<AudioCubit>().toggleVolume(),
-              );
-            },
+        Positioned.fill(
+          child: GameWidget(
+            game: Sintropico(
+              l10n: context.l10n,
+              effectPlayer: context.read<AudioCubit>().effectPlayer,
+              textStyle: textStyle,
+              images: context.read<PreloadCubit>().images,
+            ),
           ),
         ),
+        // Align(
+        //   alignment: Alignment.topRight,
+        //   child: BlocBuilder<AudioCubit, AudioState>(
+        //     builder: (context, state) {
+        //       return IconButton(
+        //         icon: Icon(
+        //           state.volume == 0 ? Icons.volume_off : Icons.volume_up,
+        //         ),
+        //         onPressed: () => context.read<AudioCubit>().toggleVolume(),
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }
