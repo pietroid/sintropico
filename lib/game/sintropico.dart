@@ -51,12 +51,14 @@ class Sintropico extends FlameGame {
       size: 40,
       color: const Color.fromARGB(255, 140, 228, 255),
       rotation: HeartRotation(angle: 0.01, axis: Vector3(0.1, 0.1, 0.1)),
+      phase: 0,
     );
     final angelHeart2 = AngelHeart(
       position: size / 2,
       size: 40,
       color: const Color.fromARGB(255, 82, 255, 189),
       rotation: HeartRotation(angle: -0.01, axis: Vector3(0.2, 0.2, 0.3)),
+      phase: pi,
     );
     final angelHeart3 = AngelHeart(
       position: size / 2,
@@ -76,8 +78,8 @@ class Sintropico extends FlameGame {
       starSystem,
       angelHeart1,
       angelHeart2,
-      angelHeart3,
-      angelHeart4
+      // angelHeart3,
+      // angelHeart4
     ]);
 
     camera.viewfinder.position = size / 2;
