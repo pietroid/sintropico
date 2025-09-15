@@ -25,7 +25,7 @@ class StarSystem extends Component {
                   (Math.Random().nextDouble() - 0.5) * cameraSize.x,
                   (Math.Random().nextDouble() - 0.5) * cameraSize.y,
                 ),
-            travelSpeed: 500,
+            travelSpeed: 100,
             distanceFromCamera: 0,
             starSize: starSizeDistribution(),
             cameraSize: cameraSize,
@@ -50,7 +50,7 @@ class StarSystem extends Component {
                     (Math.Random().nextDouble() - 0.5) * cameraSize.x,
                     (Math.Random().nextDouble() - 0.5) * cameraSize.y,
                   ),
-              travelSpeed: 500,
+              travelSpeed: 100,
               distanceFromCamera: 0,
               starSize: starSizeDistribution(),
               cameraSize: cameraSize,
@@ -80,5 +80,5 @@ double starSizeDistribution() {
   final random = Math.Random();
   final value = random.nextDouble();
   // Using a cubic distribution to favor smaller stars
-  return Math.pow(value, 10).toDouble() * 1;
+  return Math.pow(value, 20).toDouble() * 1.5;
 }

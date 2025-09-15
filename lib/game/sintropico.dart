@@ -7,6 +7,7 @@ import 'package:flame/game.dart';
 import 'package:flame/particles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:sintropico/game/components/angel_heart.dart';
 import 'package:sintropico/game/components/counter_component.dart';
 import 'package:sintropico/game/components/star.dart';
 import 'package:sintropico/game/components/star_system.dart';
@@ -45,7 +46,39 @@ class Sintropico extends FlameGame {
       numberOfStars: 10000,
       cameraSize: size,
     );
-    await addAll([world, camera, starSystem]);
+    final angelHeart1 = AngelHeart(
+      position: size / 2,
+      size: 40,
+      color: const Color.fromARGB(255, 140, 228, 255),
+      rotation: HeartRotation(angle: 0.01, axis: Vector3(0.1, 0.1, 0.1)),
+    );
+    final angelHeart2 = AngelHeart(
+      position: size / 2,
+      size: 40,
+      color: const Color.fromARGB(255, 82, 255, 189),
+      rotation: HeartRotation(angle: -0.01, axis: Vector3(0.2, 0.2, 0.3)),
+    );
+    final angelHeart3 = AngelHeart(
+      position: size / 2,
+      size: 40,
+      color: const Color.fromARGB(255, 82, 117, 255),
+      rotation: HeartRotation(angle: -0.05, axis: Vector3(0.2, -0.3, 0.3)),
+    );
+    final angelHeart4 = AngelHeart(
+      position: size / 2,
+      size: 40,
+      color: const Color.fromARGB(255, 203, 82, 255),
+      rotation: HeartRotation(angle: 0.05, axis: Vector3(0.2, -0.3, 0.3)),
+    );
+    await addAll([
+      world,
+      camera,
+      starSystem,
+      angelHeart1,
+      angelHeart2,
+      angelHeart3,
+      angelHeart4
+    ]);
 
     camera.viewfinder.position = size / 2;
     camera.viewfinder.zoom = 1;
