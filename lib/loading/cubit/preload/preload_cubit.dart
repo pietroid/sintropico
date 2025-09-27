@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flame/cache.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sintropico/gen/assets.gen.dart';
 
 part 'preload_state.dart';
 
@@ -18,11 +17,11 @@ class PreloadCubit extends Cubit<PreloadState> {
     final phases = [
       PreloadPhase(
         'audio',
-        () => audio.loadAll([Assets.audio.background, Assets.audio.effect]),
+        () => audio.loadAll(["assets/audio/cosmic_dreams.mp3"]),
       ),
       PreloadPhase(
         'images',
-        () => images.loadAll([Assets.images.unicornAnimation.path]),
+        () => images.loadAll(["assets/images/unicorn_animation.png"]),
       ),
     ];
 

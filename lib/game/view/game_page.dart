@@ -42,12 +42,14 @@ class _GameViewState extends State<GameView> {
   void initState() {
     super.initState();
     bgm = context.read<AudioCubit>().bgm;
-    // bgm.play(Assets.audio.background);
+    bgm.play(
+      "assets/audio/cosmic_dreams.mp3",
+    );
   }
 
   @override
   void dispose() {
-    // bgm.pause();
+    bgm.stop();
     super.dispose();
   }
 
@@ -57,32 +59,23 @@ class _GameViewState extends State<GameView> {
           color: Colors.white,
           fontSize: 4,
         );
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: GameWidget(
-            game: Sintropico(
-              l10n: context.l10n,
-              effectPlayer: context.read<AudioCubit>().effectPlayer,
-              textStyle: textStyle,
-              images: context.read<PreloadCubit>().images,
+    return GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: GameWidget(
+                game: Sintropico(
+                  l10n: context.l10n,
+                  effectPlayer: context.read<AudioCubit>().effectPlayer,
+                  textStyle: textStyle,
+                  images: context.read<PreloadCubit>().images,
+                ),
+              ),
             ),
-          ),
-        ),
-        // Align(
-        //   alignment: Alignment.topRight,
-        //   child: BlocBuilder<AudioCubit, AudioState>(
-        //     builder: (context, state) {
-        //       return IconButton(
-        //         icon: Icon(
-        //           state.volume == 0 ? Icons.volume_off : Icons.volume_up,
-        //         ),
-        //         onPressed: () => context.read<AudioCubit>().toggleVolume(),
-        //       );
-        //     },
-        //   ),
-        // ),
-      ],
-    );
+          ],
+        ));
   }
 }
