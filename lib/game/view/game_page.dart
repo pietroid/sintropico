@@ -43,7 +43,7 @@ class _GameViewState extends State<GameView> {
     super.initState();
     bgm = context.read<AudioCubit>().bgm;
     bgm.play(
-      "assets/audio/cosmic_dreams.mp3",
+      "assets/audio/cosmic_dreams.wav",
     );
   }
 
@@ -60,22 +60,24 @@ class _GameViewState extends State<GameView> {
           fontSize: 4,
         );
     return GestureDetector(
-        onTap: () {
-          Navigator.of(context).pop();
-        },
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: GameWidget(
-                game: Sintropico(
-                  l10n: context.l10n,
-                  effectPlayer: context.read<AudioCubit>().effectPlayer,
-                  textStyle: textStyle,
-                  images: context.read<PreloadCubit>().images,
-                ),
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: GameWidget(
+              game: Sintropico(
+                l10n: context.l10n,
+                effectPlayer: context.read<AudioCubit>().effectPlayer,
+                textStyle: textStyle,
+                images: context.read<PreloadCubit>().images,
+                fftProcessor: context.read<PreloadCubit>().fftProcessor,
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

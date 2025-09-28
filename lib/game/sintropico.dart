@@ -6,7 +6,9 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:sintropico/fft/fft_processor.dart';
 import 'package:sintropico/game/components/angel_heart.dart';
+import 'package:sintropico/game/components/central_heart.dart';
 import 'package:sintropico/game/components/star_system.dart';
 import 'package:sintropico/l10n/l10n.dart';
 
@@ -16,6 +18,7 @@ class Sintropico extends FlameGame {
     required this.effectPlayer,
     required this.textStyle,
     required Images images,
+    required this.fftProcessor,
   }) {
     this.images = images;
   }
@@ -24,9 +27,11 @@ class Sintropico extends FlameGame {
 
   final AudioPlayer effectPlayer;
 
+  final FFTProcessor fftProcessor;
+
   final TextStyle textStyle;
 
-  int counter = 0;
+  int totalTimeMillis = 0;
 
   @override
   Color backgroundColor() => const Color.fromARGB(255, 0, 0, 0);
@@ -68,12 +73,19 @@ class Sintropico extends FlameGame {
       color: const Color.fromARGB(255, 203, 82, 255),
       rotation: HeartRotation(angle: 0.05, axis: Vector3(0.2, -0.3, 0.3)),
     );
+
+    final spectre = Spectre(
+      position: Vector2(0, size.y - 100),
+      size: Vector2(size.x, 100),
+      fftProcessor: fftProcessor,
+    );
     await addAll([
       world,
       camera,
       starSystem,
-      angelHeart1,
-      angelHeart2,
+      spectre,
+      //angelHeart1,
+      //angelHeart2,
       // angelHeart3,
       // angelHeart4
     ]);

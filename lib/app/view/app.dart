@@ -3,6 +3,8 @@ import 'package:flame/cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:sintropico/fft/fft_processor.dart';
 import 'package:sintropico/l10n/l10n.dart';
 import 'package:sintropico/loading/loading.dart';
 
@@ -15,8 +17,9 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (_) => PreloadCubit(
-            Images(prefix: ''),
-            AudioCache(prefix: ''),
+            images: Images(prefix: ''),
+            audio: AudioCache(prefix: ''),
+            fftProcessor: FFTProcessor(),
           )..loadSequentially(),
         ),
       ],
