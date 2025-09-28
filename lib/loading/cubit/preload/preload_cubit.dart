@@ -3,33 +3,38 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flame/cache.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sintropico/fft/fft_processor.dart';
+import 'package:sintropico/audio/audio_processor.dart';
 
 part 'preload_state.dart';
 
 class PreloadCubit extends Cubit<PreloadState> {
   PreloadCubit(
-      {required this.images, required this.audio, required this.fftProcessor})
+      {required this.images, required this.audio, required this.audioProcessor})
       : super(const PreloadState.initial());
 
   final Images images;
   final AudioCache audio;
-  final FFTProcessor fftProcessor;
-  List<Uri> audioFiles = [];
+  final AudioProcessor audioProcessor;
 
   /// Load items sequentially allows display of what is being loaded
   Future<void> loadSequentially() async {
     final phases = [
-      PreloadPhase('audio', () async {
-        audioFiles = await audio.loadAll(["assets/audio/cosmic_dreams.wav"]);
-      }),
+      PreloadPhase(
+          'audio', () => audio.loadAll(["assets/audio/cosmic_dreams.wav"])),
       PreloadPhase(
         'images',
         () => images.loadAll(["assets/images/unicorn_animation.png"]),
       ),
       PreloadPhase(
-        'fft',
-        () => fftProcessor.processFFT(audioFiles[0]),
+        'tracksProcessing',
+        () => audioProcessor.processAudioTracks({
+          "drums": "assets/audio/cosmic_dreams_drums.wav",
+          "bass": "assets/audio/cosmic_dreams_bass.wav",
+          "guitar": "assets/audio/cosmic_dreams_guitar.wav",
+          "keyboards": "assets/audio/cosmic_dreams_keyboards.wav",
+          "piano": "assets/audio/cosmic_dreams_piano.wav",
+          "strings": "assets/audio/cosmic_dreams_strings.wav",
+        }),
       )
     ];
 

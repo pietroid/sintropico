@@ -72,7 +72,7 @@ class _GameViewState extends State<GameView> {
                 effectPlayer: context.read<AudioCubit>().effectPlayer,
                 textStyle: textStyle,
                 images: context.read<PreloadCubit>().images,
-                fftProcessor: context.read<PreloadCubit>().fftProcessor,
+                audioProcessor: context.read<PreloadCubit>().audioProcessor,
               ),
             ),
           ),

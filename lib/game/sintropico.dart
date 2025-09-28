@@ -6,9 +6,10 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:sintropico/fft/fft_processor.dart';
+import 'package:sintropico/audio/audio_processor.dart';
 import 'package:sintropico/game/components/angel_heart.dart';
-import 'package:sintropico/game/components/central_heart.dart';
+import 'package:sintropico/game/components/circular_power_bar.dart';
+import 'package:sintropico/game/components/pulsation.dart';
 import 'package:sintropico/game/components/star_system.dart';
 import 'package:sintropico/l10n/l10n.dart';
 
@@ -18,7 +19,7 @@ class Sintropico extends FlameGame {
     required this.effectPlayer,
     required this.textStyle,
     required Images images,
-    required this.fftProcessor,
+    required this.audioProcessor,
   }) {
     this.images = images;
   }
@@ -27,9 +28,9 @@ class Sintropico extends FlameGame {
 
   final AudioPlayer effectPlayer;
 
-  final FFTProcessor fftProcessor;
-
   final TextStyle textStyle;
+
+  final AudioProcessor audioProcessor;
 
   int totalTimeMillis = 0;
 
@@ -74,17 +75,70 @@ class Sintropico extends FlameGame {
       rotation: HeartRotation(angle: 0.05, axis: Vector3(0.2, -0.3, 0.3)),
     );
 
-    final spectre = Spectre(
-      position: Vector2(0, size.y - 100),
-      size: Vector2(size.x, 100),
-      fftProcessor: fftProcessor,
+    final pulsationDrums = Pulsation(
+      position: size / 2 - Vector2(100, 0),
+      audioProcessor: audioProcessor,
+      track: "drums",
+      radius: 70,
+      color: const Color.fromARGB(255, 0, 255, 0),
     );
+
+    final pulsationBass = Pulsation(
+      position: size / 2 + Vector2(100, 0),
+      audioProcessor: audioProcessor,
+      track: "bass",
+      radius: 50,
+      color: const Color.fromARGB(255, 255, 0, 0),
+    );
+
+    final pulsationPiano = Pulsation(
+      position: size / 2 + Vector2(0, 100),
+      audioProcessor: audioProcessor,
+      track: "piano",
+      radius: 60,
+      color: const Color.fromARGB(255, 0, 0, 255),
+    );
+
+    final pulsationGuitar = Pulsation(
+      position: size / 2 + Vector2(0, -100),
+      audioProcessor: audioProcessor,
+      track: "guitar",
+      radius: 40,
+      color: const Color.fromARGB(255, 255, 255, 0),
+    );
+
+    final pulsationKeyboards = Pulsation(
+      position: size / 2 + Vector2(70, 70),
+      audioProcessor: audioProcessor,
+      track: "keyboards",
+      radius: 30,
+      color: const Color.fromARGB(255, 0, 255, 255),
+    );
+
+    final pulsationStrings = Pulsation(
+      position: size / 2 + Vector2(-70, -70),
+      audioProcessor: audioProcessor,
+      track: "strings",
+      radius: 80,
+      color: const Color.fromARGB(255, 255, 0, 255),
+    );
+
+    final circularPowerBar = CircularPowerBar(
+      audioProcessor: audioProcessor,
+      position: size / 2,
+    );
+
     await addAll([
       world,
       camera,
-      starSystem,
-      spectre,
-      //angelHeart1,
+      starSystem, circularPowerBar,
+      // pulsationDrums,
+      // pulsationBass,
+      // pulsationPiano,
+      // pulsationGuitar,
+      // pulsationKeyboards,
+      // pulsationStrings,
+      //angelHeart1,x
       //angelHeart2,
       // angelHeart3,
       // angelHeart4
