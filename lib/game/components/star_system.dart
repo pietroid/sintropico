@@ -2,7 +2,13 @@ import 'dart:math' as Math;
 
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:sintropico/game/components/communication.dart';
 import 'package:sintropico/game/components/star.dart';
+import 'package:sintropico/game/constants.dart';
+import 'package:sintropico/game/variables.dart';
+
+const initialSpeed = 400.0;
+const finalSpeed = 200.0;
 
 class StarSystem extends Component {
   StarSystem({
@@ -25,10 +31,13 @@ class StarSystem extends Component {
                   (Math.Random().nextDouble() - 0.5) * cameraSize.x,
                   (Math.Random().nextDouble() - 0.5) * cameraSize.y,
                 ),
-            travelSpeed: 100,
+            travelSpeed: 2000,
             distanceFromCamera: 0,
             starSize: starSizeDistribution(),
             cameraSize: cameraSize,
+            globalParams: GlobalParams(
+              baseStarSize: 1.0,
+            ),
           ),
         ),
       );
@@ -50,14 +59,46 @@ class StarSystem extends Component {
                     (Math.Random().nextDouble() - 0.5) * cameraSize.x,
                     (Math.Random().nextDouble() - 0.5) * cameraSize.y,
                   ),
-              travelSpeed: 100,
+              travelSpeed:
+                  initialSpeed + (finalSpeed - initialSpeed) * progress,
               distanceFromCamera: 0,
               starSize: starSizeDistribution(),
               cameraSize: cameraSize,
+              globalParams: GlobalParams(
+                baseStarSize: 1.0,
+              ),
             ),
           ),
         );
       }
+    }
+    for (var i = 0; i < currentCommunicationFrequency * intensityLevel; i++) {
+      // make stars communicate with each other
+      final allStars = children.whereType<ParticleSystemComponent>();
+      final allNumberOfStars = allStars.length;
+
+      final baseRandomIndex = Math.Random().nextInt(allNumberOfStars);
+
+      // get a random star
+      final baseStar = allStars.elementAt(baseRandomIndex);
+
+      // get a different random star
+      final sample = allStars.where((star) =>
+          ((baseStar.particle as Star).position -
+                  (star.particle as Star).position)
+              .length <
+          currentMaxCommunicationDistance);
+
+      final targetRandomIndex = Math.Random().nextInt(sample.length);
+      final targetStar = sample.elementAt(targetRandomIndex);
+
+      // add communication effect between baseStar and targetStar
+      add(
+        Communication(
+          originStar: baseStar.particle as Star,
+          targetStar: targetStar.particle as Star,
+        ),
+      );
     }
   }
 }

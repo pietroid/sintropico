@@ -36,7 +36,9 @@ class AppView extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.dark(),
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        textTheme: GoogleFonts.cormorantInfantTextTheme(
+          Theme.of(context).textTheme,
+        ),
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

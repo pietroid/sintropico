@@ -10,6 +10,7 @@ class Star extends AcceleratedParticle {
     required double distanceFromCamera,
     required double starSize,
     required this.cameraSize,
+    required this.globalParams,
     required Color color,
   }) : super(
           position: initialPosition,
@@ -31,6 +32,8 @@ class Star extends AcceleratedParticle {
 
   final Vector2 cameraSize;
 
+  final GlobalParams globalParams;
+
   @override
   void update(double dt) {
     if (position.x > cameraSize.x ||
@@ -41,6 +44,14 @@ class Star extends AcceleratedParticle {
     }
     super.update(dt);
   }
+}
+
+class GlobalParams {
+  GlobalParams({
+    required this.baseStarSize,
+  });
+
+  final double baseStarSize;
 }
 
 class StarParticle extends Particle {
